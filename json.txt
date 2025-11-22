@@ -1,0 +1,5 @@
+{
+  "to": "user-email@example.com",
+  "subject": "Meeting Confirmation",
+  "text": "Your meeting is booked."
+}
