@@ -1,0 +1,35 @@
+const nodemailer = require('nodemailer');
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Only POST requests allowed' });
+  }
+
+  const { to, subject, text } = req.body;
+
+  if (!to || !subject || !text) {
+    return res.status(400).json({ message: 'Missing to, subject, or text in request body' });
+  }
+
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: 'wellcareclubofficial@gmail.com',  // your Gmail address
+      pass: process.env.tiks mxbmitxtuesn,     // use environment variable for app password
+    },
+  });
+
+  try {
+    await transporter.sendMail({
+      from: '"Well Care Club" <wellcareclubofficial@gmail.com>',
+      to,
+      subject,
+      text,
+    });
+    res.status(200).json({ message: 'Email sent successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to send email', error: error.message });
+  }
+}
